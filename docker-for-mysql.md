@@ -46,3 +46,9 @@ docker命令行導入mysql數據庫
 拷貝文件到容器內
 
     docker cp filename mysql_han:/root/   #容器名:容器內文件夾路徑
+    
+macos與容器mysql同步時間
+
+    1. ssh進入容器 docker exec -it mysql_han bash
+    2. $ dpkg-reconfigure tzdata
+    3. $ date
