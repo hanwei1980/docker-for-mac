@@ -2,6 +2,8 @@
 
 ## 1、docker-compose
 
+compose文件以.yaml後綴
+
     version: "3"                                 #定義docker-compose版本
     services:
       mysql:
@@ -17,3 +19,30 @@
           - LANG=C.UTF-8                         #定義數據庫字符集
         restart: always                          #容器掛掉之後會自動重啓
         privileged: true                         #解決訪問權限問題
+        
+## 2、docker-compose基本命令
+
+在docker-compose文件目錄下執行命令
+
+    docker-compose up -d   #創建並啟動容器，如果image不存在自動去docker hub抓取，並在後台守護運行
+    docker-compose down    #關閉當前容器，同時刪除image，network，container、volumes
+    docker-compose ps      #列出當前運行的容器
+    docker-compose rm      #停止並刪除容器
+    
+## 3、docker與數據庫交互
+
+docker命令行導入mysql數據庫
+
+    docker exec -i mysql_han mysql -uusername -ppassword databasename < $PWD/databasename.sql   #注意不能加-t參數，會報錯
+
+進入mysql容器
+
+    dokcer exec -it mysql_han bash
+    
+查看容器運行log
+
+    docker logs --follow mysql_han
+    
+拷貝文件到容器內
+
+    docker cp filename mysql_han:/root/   #容器名:容器內文件夾路徑
