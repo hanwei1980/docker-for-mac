@@ -2,18 +2,18 @@
 
 ## 1、docker-compose
 
-    version: "3"  #定義docker-compose版本
+    version: "3"                                 #定義docker-compose版本
     services:
       mysql:
-        container_name: mysql_han   #定義container的名稱，方便以後在命令行使用，本例定義為mysql_han
-        image: mysql:5.6
+        container_name: mysql_han                #定義container的名稱，方便以後在命令行使用，本例定義為mysql_han
+        image: mysql:5.6                         #下載mysql5.6 image
         volumes:
-          - $PWD/mysql/data/:/var/lib/mysql   #掛載mysql數據卷
-          - $PWD/mysql/my.cnf:/etc/my.cnf
+          - $PWD/mysql/data/:/var/lib/mysql      #掛載mysql數據卷，容器與數據分離，保證容器重啓之後數據不丟失。$PWD為項目實際路徑
+          - $PWD/mysql/my.cnf:/etc/my.cnf        #掛載mysql配置文件，方便在容器外修改重啓後不丟失，mysql第一個配置文件位置/etc/my.cnf
         ports:
-          - "127.0.0.1:3306:3306"    #定義端口映射，將docker容器的3306端口映射到宿主機3306端口，這樣在宿主機可以直接訪問mysql
+          - "127.0.0.1:3306:3306"                #定義端口映射，將docker容器的3306端口映射到宿主機3306端口，這樣在宿主機可以直接訪問mysql
         environment:
           - MYSQL_ROOT_PASSWORD=[mysql的root密碼]
-          - LANG=C.UTF-8  #定義數據庫字符集
-        restart: always   
-        privileged: true
+          - LANG=C.UTF-8                         #定義數據庫字符集
+        restart: always                          #容器掛掉之後會自動重啓
+        privileged: true                         #解決訪問權限問題
